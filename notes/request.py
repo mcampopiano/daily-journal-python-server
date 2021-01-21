@@ -1,4 +1,3 @@
-from models import Note
 import sqlite3
 import json
 from models import Note
@@ -29,6 +28,15 @@ def get_single_note(id):
                             data['entry'], data['mood_id'])
 
         return json.dumps(note.__dict__)
+
+def delete_note(id):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM note
+        WHERE id = ?
+        """, (id, ))
 
 def get_all_notes():
     # Open a connection to the database
