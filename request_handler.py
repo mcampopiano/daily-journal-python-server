@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from moods.request import get_all_moods
+from moods import get_all_moods
 from notes import get_all_notes, get_single_note, delete_note
 
 
