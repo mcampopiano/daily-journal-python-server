@@ -1,8 +1,34 @@
-from models.note import Note
-import models
+from models import Note
 import sqlite3
 import json
 from models import Note
+
+def get_single_note(id):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        # Use a ? parameter to inject a variable's value
+        # into the SQL statement.
+        db_cursor.execute("""
+        SELECT
+            n.id,
+            n.concept,
+            n.date,
+            n.entry,
+            n.mood_id
+        FROM notes n
+        WHERE n.id = ?
+        """, ( id, ))
+
+        # Load the single result into memory
+        data = db_cursor.fetchone()
+
+        # Create an note instance from the current row
+        note = Note(data['id'], data['concept'], data['date'],
+                            data['entry'], data['mood_id'])
+
+        return json.dumps(note.__dict__)
 
 def get_all_notes():
     # Open a connection to the database
