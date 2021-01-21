@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from notes import get_all_notes
+from notes import get_all_notes, get_single_note
 
 
 # Here's a class. It inherits from another class.
@@ -53,10 +53,10 @@ class HandleRequests(BaseHTTPRequestHandler):
         (resource, id) = self.parse_url(self.path)
 
         if resource == "notes":
-            # if id is not None:
-            #     response = f"{get_single_note(id)}"
+            if id is not None:
+                response = f"{get_single_note(id)}"
 
-            # else:
+            else:
                 response = f"{get_all_notes()}"
         
 

@@ -1,1 +1,1 @@
-from .request import get_all_notes
+from .request import get_all_notes, get_single_note
