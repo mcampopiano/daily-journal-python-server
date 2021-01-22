@@ -26,6 +26,7 @@ INSERT INTO moods VALUES (null, "Ecstatic");
 
 INSERT INTO notes  VALUES (null, "SQL", "01/15/21", "Learned by playing SQL Bolt", 6 );
 INSERT INTO notes  VALUES (null, "PYTHON", "01/6/21", "Watched a lot of scrimba videos", 4 );
+INSERT INTO notes  VALUES (null, "Delete", "01/22/21", "Checking if this deletes", 10 );
 
 SELECT
 n.concept,
