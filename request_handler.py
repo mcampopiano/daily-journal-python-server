@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
 from moods import get_all_moods
-from notes import get_all_notes, get_single_note, delete_note, get_note_by_search_term
+from notes import get_all_notes, get_single_note, delete_note, get_note_by_search_term, create_note
 
 
 # Here's a class. It inherits from another class.
@@ -103,8 +104,24 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
-        response = f"received post request:<br>{post_body}"
-        self.wfile.write(response.encode())
+
+         # Convert JSON string to a Python dictionary
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        # Initialize new note
+        new_entry = None
+        # Initialize new location
+
+        # Add a new note to the list. Don't worry about
+        # the orange squiggle, you'll define the create_note
+        # function next.
+        if resource == "notes":
+            new_entry = create_note(post_body)
+        # response = f"received post request:<br>{post_body}"
+        self.wfile.write(f"{new_entry}".encode())
 
     def do_DELETE(self):
         # Set a 204 response code
