@@ -1,1 +1,1 @@
-from .request import get_all_notes, get_single_note, delete_note, get_note_by_search_term
+from .request import get_all_notes, get_single_note, delete_note, get_note_by_search_term, create_note

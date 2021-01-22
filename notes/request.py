@@ -68,6 +68,31 @@ def get_note_by_search_term(search_term):
             # Use `json` package to properly serialize list as JSON
         return json.dumps(notes)
 
+def create_note(new_note):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO notes
+            ( concept, date, entry, mood_id )
+        VALUES
+            ( ?, ?, ?, ?);
+        """, (new_note['concept'], new_note['date'],
+                            new_note['entry'], new_note['moodId'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the note dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_note['id'] = id
+
+
+    return json.dumps(new_note)
+
 def delete_note(id):
     with sqlite3.connect("./dailyjournal.db") as conn:
         db_cursor = conn.cursor()
