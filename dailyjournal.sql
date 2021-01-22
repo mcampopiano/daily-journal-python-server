@@ -35,3 +35,9 @@ m.label as mood
 FROM Notes n
 JOIN Moods m
     ON n.mood_id = m.id;
+
+SELECT
+concept,
+entry
+FROM Notes
+WHERE entry LIKE '%lear%';
