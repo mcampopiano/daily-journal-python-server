@@ -34,7 +34,7 @@ def delete_note(id):
         db_cursor = conn.cursor()
 
         db_cursor.execute("""
-        DELETE FROM note
+        DELETE FROM notes
         WHERE id = ?
         """, (id, ))
 
