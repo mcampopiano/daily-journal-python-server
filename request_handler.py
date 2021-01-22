@@ -1,5 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from notes import get_all_notes, get_single_note
+from moods import get_all_moods
+from notes import get_all_notes, get_single_note, delete_note
 
 
 # Here's a class. It inherits from another class.
@@ -58,6 +59,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = f"{get_all_notes()}"
+        elif resource == "moods":
+            response = f"{get_all_moods()}"
         
 
         self.wfile.write(response.encode())
@@ -72,6 +75,26 @@ class HandleRequests(BaseHTTPRequestHandler):
         post_body = self.rfile.read(content_len)
         response = f"received post request:<br>{post_body}"
         self.wfile.write(response.encode())
+
+    def do_DELETE(self):
+        # Set a 204 response code
+        self._set_headers(204)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+         # Delete a single note from the list
+        if resource == "notes":
+            delete_note(id)
+        # elif resource == "locations":
+        #     delete_location(id)
+        # elif resource == "employees":
+        #     delete_employee(id)
+        # elif resource == "customers":
+        #     delete_customer(id)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 
     # Here's a method on the class that overrides the parent's method.

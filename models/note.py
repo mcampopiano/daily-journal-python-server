@@ -4,4 +4,4 @@ class Note():
         self.concept = concept
         self.date = date
         self.entry = entry
-        self.mood_id = mood_id
+        self.moodId = mood_id
