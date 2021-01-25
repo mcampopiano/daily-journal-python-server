@@ -102,6 +102,31 @@ def delete_note(id):
         WHERE id = ?
         """, (id, ))
 
+def update_note(id, new_note):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Notes
+            SET
+                concept = ?,
+                date = ?,
+                entry = ?,
+                mood_id = ?
+        WHERE id = ?
+        """, (new_note['concept'], new_note['date'], new_note['entry'], new_note['moodId'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
+
 def get_all_notes():
     # Open a connection to the database
     with sqlite3.connect("./dailyjournal.db") as conn:

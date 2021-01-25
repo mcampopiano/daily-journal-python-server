@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from moods import get_all_moods
-from notes import get_all_notes, get_single_note, delete_note, get_note_by_search_term, create_note
+from notes import get_all_notes, get_single_note, delete_note, get_note_by_search_term, create_note, update_note
 
 
 # Here's a class. It inherits from another class.
@@ -147,7 +147,26 @@ class HandleRequests(BaseHTTPRequestHandler):
     # Here's a method on the class that overrides the parent's method.
     # It handles any PUT request.
     def do_PUT(self):
-        self.do_POST()
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
+
+        success = False
+
+        
+        if resource == "notes":
+           success = update_note(id, post_body)
+        
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
+
+        # Encode the new animal and send in response
+        self.wfile.write("".encode())
 
 
 # This function is not inside the class. It is the starting
